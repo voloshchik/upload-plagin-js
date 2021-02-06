@@ -4,5 +4,5 @@ console.log('working')
 
 upload('#file', {
   mult: true,
-  accept: ['.jpg', '.png', 'jpeg', 'img'],
+  accept: ['.jpg', '.png', '.jpeg', '.img'],
 })
