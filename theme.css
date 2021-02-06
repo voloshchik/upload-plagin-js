@@ -58,11 +58,51 @@ input[type='file'] {
   padding: 0.5rem;
 }
 .preview-image {
+  position: relative;
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
+  overflow: hidden;
 }
 
+.preview-image:hover .preview-remove {
+  opacity: 1;
+}
+.preview-image:hover .preview-info {
+  opacity: 1;
+  bottom: 10px;
+}
 .preview-image img {
   width: 180px;
   height: auto;
+}
+
+.preview-remove {
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.preview-info {
+  position: absolute;
+  right: 0;
+  bottom: -30px;
+  left: 0;
+  height: 24px;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  transition: bottom 0.22s;
 }

@@ -1,4 +1,11 @@
-console.log('upload.js')
+function bytesToSize(bytes) {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (!bytes) {
+    return '0 Byte'
+  }
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
+  return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
+}
 
 export function upload(selector, options) {
   const input = document.querySelector(selector)
@@ -37,13 +44,19 @@ export function upload(selector, options) {
       const reader = new FileReader()
 
       reader.onload = (e) => {
-        console.log(e.target.result)
         const src = e.target.result
+        console.log(bytesToSize(file.size))
         preview.insertAdjacentHTML(
           'afterbegin',
           `<div class="preview-image">
-         <img src="${src}"/>
-       </div>`
+            <div class="preview-remove">&times</div>
+            <img src="${src}"/>
+            <div class="preview-info">
+              <span>${file.name}</span>
+              ${bytesToSize(file.size)}
+             
+            </div>
+          </div>`
         )
       }
 
