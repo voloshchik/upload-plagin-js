@@ -7,18 +7,39 @@ function bytesToSize(bytes) {
   return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
+const element = (tag, classes = [], content) => {
+  const node = document.createElement(tag)
+  if (classes.length) {
+    node.classList.add(...classes)
+  }
+
+  if (content) {
+    node.textContent = content
+  }
+  return node
+}
+
 export function upload(selector, options) {
   let files = []
   const input = document.querySelector(selector)
 
-  const open = document.createElement('button')
-  const preview = document.createElement('preview')
+  const preview = element('div', ['preview'])
 
-  preview.classList.add('preview')
+  // const preview = document.createElement('div')
 
-  open.classList.add('btn')
-  open.textContent = 'Открыть'
+  // preview.classList.add('preview')
+
+  const open = element('button', ['btn'], 'Открыть')
+
+  const upload = element('button', ['btn', 'primary'], 'Загрузить')
+  upload.style.display = 'none'
+  // const open = document.createElement('button')
+  // open.classList.add('btn')
+  // open.textContent = 'Открыть'
+
   input.insertAdjacentElement('afterend', preview)
+  input.insertAdjacentElement('afterend', upload)
+
   input.insertAdjacentElement('afterend', open)
 
   if (options.mult) {
@@ -37,6 +58,7 @@ export function upload(selector, options) {
 
     files = Array.from(event.target.files)
 
+    upload.style.display = 'inline'
     preview.innerHTML = ''
     files.forEach((file, i) => {
       // console.log(file)
@@ -66,6 +88,10 @@ export function upload(selector, options) {
     })
   }
 
+  const uploadHandler = () => {
+    console.log('uploadHadler')
+  }
+
   const removeHandler = (e) => {
     if (!e.target.dataset.name) {
       return
@@ -75,9 +101,14 @@ export function upload(selector, options) {
     files = files.filter((file) => {
       return file.name !== id
     })
+
+    if (!files.length) {
+      upload.style.display = 'none'
+    }
     let block = document.querySelector(`[data-name="${id}"]`).closest('.preview-image')
 
     block.classList.add('removing')
+
     setTimeout(() => block.remove(), 500)
   }
 
@@ -86,4 +117,5 @@ export function upload(selector, options) {
   input.addEventListener('change', changeHandler)
 
   preview.addEventListener('click', removeHandler)
+  upload.addEventListener('click', uploadHandler)
 }
