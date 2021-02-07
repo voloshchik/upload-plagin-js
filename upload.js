@@ -19,8 +19,13 @@ const element = (tag, classes = [], content) => {
   return node
 }
 
+const noop = () => {}
+
 export function upload(selector, options) {
   let files = []
+
+  const onUpload = options.onUpload ?? noop
+
   const input = document.querySelector(selector)
 
   const preview = element('div', ['preview'])
@@ -88,8 +93,22 @@ export function upload(selector, options) {
     })
   }
 
+  const clearInfo = (el) => {
+    el.style.bottom = '4px'
+    el.innerHTML = `<div class="preview-info-progress"></div>`
+  }
+
   const uploadHandler = () => {
     console.log('uploadHadler')
+    preview.querySelectorAll('.preview-remove').forEach((item) => {
+      item.remove()
+    })
+
+    const previewInfo = document.querySelectorAll('.preview-info')
+
+    previewInfo.forEach(clearInfo)
+
+    onUpload(files, previewInfo)
   }
 
   const removeHandler = (e) => {

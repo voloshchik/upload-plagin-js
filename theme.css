@@ -111,3 +111,18 @@ input[type='file'] {
   transform: scale(0);
   transition: transform 0.5s;
 }
+
+.preview-info-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  right: 0;
+  background: #42b983;
+  width: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: width 0.5s;
+}
